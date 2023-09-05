@@ -4,6 +4,9 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -37,6 +40,8 @@ public class ApiController {
     public List<Student> listStudents() {
         return studentRepository.findAll();
     }
+    // Test Case 1: Data Access - Student
+
 
     @GetMapping("/search/pii")
     public List<Map<String, Object>> getStudentByStudentId(@RequestHeader(value = "Authorization") String authHeader,

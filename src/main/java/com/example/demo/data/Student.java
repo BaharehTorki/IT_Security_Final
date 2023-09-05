@@ -8,14 +8,15 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @Entity
 @Data
-@PreAuthorize("hasRole('STUDENT')") //authorization rules at the endpoint level using Spring Security annotations
+@PreAuthorize("hasRole('ROLE_Student')") //authorization rules at the endpoint level using Spring Security annotations
 public class Student {
     @Id
     private int studentId;
     private String name;
     private String gender;
     private int password;
-    private String Student(String password) {
+
+    private String hashPassword(String password) { //Create method for having hashed password
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         return passwordEncoder.encode(password);
     }

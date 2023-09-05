@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.example.demo.data.Student;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -16,7 +17,8 @@ public class PiiRepositoryCustomImpl implements PiiRepository {
 
     @Autowired
     private EntityManager entityManager;
-
+    Student student = new Student();
+    int studentId = student.getStudentId();
     // what about 1 or 1 = 1 --
     public List<Map<String, Object>> getPII(String studentId) {
         //String sql = "SELECT * FROM pii WHERE student_id = " + studentId;
@@ -26,6 +28,7 @@ public class PiiRepositoryCustomImpl implements PiiRepository {
 
         // Run the query
         Query query = entityManager.createNativeQuery(sql);
+        query.setParameter(1, studentId); // Set the studentId parameter using positional parameter binding
         List<Object[]> rows = query.getResultList();
 
         // Map rows to your objects (if needed)
