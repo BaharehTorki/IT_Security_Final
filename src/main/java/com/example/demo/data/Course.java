@@ -7,7 +7,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 
 @Entity
 @Data
-@PreAuthorize("hasRole('ADMIN')")
 public class Course {
     @Id
     private int courseId;

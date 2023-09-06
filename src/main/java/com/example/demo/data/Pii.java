@@ -7,7 +7,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 
 @Entity
 @Data
-@PreAuthorize("hasRole('STUDENT')")
 public class Pii {
     @Id
     private int piiId;

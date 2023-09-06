@@ -5,6 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.data.Auth;
@@ -17,16 +18,19 @@ public class AuthService {
 
     private static final Logger logger = LoggerFactory.getLogger(AuthService.class);
 
+    private BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
+    //-----------------------My change----------------------
     //retrieve these values from the properties file using Spring's @Value annotation
     @Value("${auth.username}")
-    private String username;
+    private String SPRING_DATASOURCE_USERNAME;
 
     @Value("${auth.password}")
-    private String password;
-
+    private String SPRING_DATASOURCE_PASSWORD;
+    //-----------------------My change----------------------
     @Autowired
     private AuthRepository authRepository;
-    Student student = new Student();
+
     public boolean authenticate(String authHeader) {
         if (authHeader != null && authHeader.startsWith("Basic")) {
             String base64Credentials = authHeader.substring("Basic".length()).trim();
@@ -39,10 +43,14 @@ public class AuthService {
 
             logger.info("Försöker autentisera med användarnamn: {} och lösenord: {}", username, password);
 
-            if ("admin".equals(username) && "supersecret".equals(password)) {
+           /* if ("admin".equals(username) && "supersecret".equals(password)) {
                 return true;
-
+            }*/
+            //-----------------------My change----------------------
+            if (username.equals(SPRING_DATASOURCE_USERNAME) && password.equals(SPRING_DATASOURCE_PASSWORD)) {
+                return true;
             }
+            //-----------------------My change----------------------
 
             Auth auth = authRepository.findByUsername(username);
             logger.debug("Jämför med lösenord: {}", auth.getPassword());

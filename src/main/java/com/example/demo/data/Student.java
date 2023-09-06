@@ -1,5 +1,7 @@
 package com.example.demo.data;
 
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.Data;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -8,16 +10,15 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @Entity
 @Data
-@PreAuthorize("hasRole('ROLE_Student')") //authorization rules at the endpoint level using Spring Security annotations
+@PreAuthorize("hasRole('ROLE_VIEWER')") //authorization rules at the endpoint level using Spring Security annotations
 public class Student {
     @Id
     private int studentId;
+    @NotNull
+    @Size(min=3, message = "name must be at least 3 characters long")
     private String name;
     private String gender;
     private int password;
-
-    private String hashPassword(String password) { //Create method for having hashed password
-        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-        return passwordEncoder.encode(password);
+    public Student() {
     }
 }
